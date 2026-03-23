@@ -29,3 +29,11 @@ collections:
       # 添加一个自定义链接的输入框
       - {label: "自定义永久链接", name: "permalink", widget: "string", required: false, pattern: ['^.*/$', "⚠️ 警告：链接结尾必须带有斜杠 /，否则网页会乱码！"], hint: "例如：my-first-blog/ （请务必以 / 结尾）"}
       - {label: "是否发布？(关闭即为草稿)", name: "published", widget: "boolean", default: false, required: false}
+      - label: "所属系列 (关联其他文章)"
+        name: "series"
+        widget: "relation"
+        collection: "blog"      # 去哪里找？去 blog 集合里找
+        search_fields: ["title"] # 搜索什么？搜索文章标题
+        value_field: "title"     # 选中后填入什么？填入文章标题
+        display_fields: ["title"] # 下拉框里显示什么？显示文章标题
+        required: false

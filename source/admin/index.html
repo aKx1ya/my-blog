@@ -11,6 +11,20 @@
     <script src="https://unpkg.com/decap-cms-locales@^3.0.0/dist/decap-cms-locales-zh_Hans.js"></script>
     <script>
       CMS.registerLocale('zh_Hans', CMS_LOCALES.zh_Hans);
+// === 新增：注册 Butterfly 专属的 Note 提示块按钮 ===
+      CMS.registerEditorComponent({
+        id: "butterfly-note",
+        label: "💡 插入提示块",
+        // 点击按钮后弹出的输入框
+        fields: [{name: "content", label: "请输入提示内容", widget: "text"}],
+        // 匹配规则
+        pattern: /^{% note info %}\n([\s\S]*?)\n{% endnote %}$/m,
+        fromBlock: function(match) { return {content: match[1]}; },
+        // 生成的 Markdown 代码
+        toBlock: function(obj) { return '{% note info %}\n' + (obj.content || '') + '\n{% endnote %}'; },
+        // 在右侧预览区显示的样子
+        toPreview: function(obj) { return '<div style="padding:15px; margin:10px 0; background-color:#e8f4fd; border-left:4px solid #1890ff; border-radius:4px;">' + (obj.content || '') + '</div>'; }
+      });
     </script>
   </body>
 </html>
