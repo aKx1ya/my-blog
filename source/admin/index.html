@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>博客管理后台</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    <script src="https://unpkg.com/decap-cms-locales@^3.0.0/dist/decap-cms-locales-zh_Hans.js"></script>
-    <script>
-      CMS.registerLocale('zh_Hans', CMS_LOCALES.zh_Hans);
-      // === 新增：注册 Butterfly 专属的 Note 提示块按钮 ===
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>博客管理后台</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    CMS.registerLocale('zh_Hans', CMS_LOCALES.zh_Hans);
+    // 检查 CMS 是否加载成功
+    if (window.CMS) {
+      console.log("CMS 加载成功，开始注册组件...");
+      
       CMS.registerEditorComponent({
         id: "butterfly-note",
         label: "💡 插入提示块",
-        // 点击按钮后弹出的输入框
-        fields: [{name: "content", label: "请输入提示内容", widget: "text"}],
-        // 匹配规则
+        fields: [{
+          name: "content",
+          label: "内容",
+          widget: "text"
+        }],
+        // 这里的正则匹配 Butterfly 的 note 语法
         pattern: /^{% note info %}\n([\s\S]*?)\n{% endnote %}$/m,
-        fromBlock: function(match) { return {content: match[1]}; },
-        // 生成的 Markdown 代码
-        toBlock: function(obj) { return '{% note info %}\n' + (obj.content || '') + '\n{% endnote %}'; },
-        // 在右侧预览区显示的样子
-        toPreview: function(obj) { return '<div style="padding:15px; margin:10px 0; background-color:#e8f4fd; border-left:4px solid #1890ff; border-radius:4px;">' + (obj.content || '') + '</div>'; }
+        fromBlock: function(match) {
+          return { content: match[1] };
+        },
+        toBlock: function(obj) {
+          return '{% note info %}\n' + (obj.content || '') + '\n{% endnote %}';
+        },
+        toPreview: function(obj) {
+          return '<div style="padding:15px; border-left:5px solid #1890ff; background:#e8f4fd;">' + (obj.content || '') + '</div>';
+        }
       });
-    </script>
-  </body>
+    } else {
+      console.error("CMS 对象未找到，请检查网络或脚本引入地址");
+    }
+  </script>
+</body>
 </html>
