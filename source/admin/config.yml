@@ -27,4 +27,4 @@ collections:
       # 添加一个开关，用来控制文章是否在首页置顶
       - {label: "是否置顶", name: "top", widget: "boolean", default: false, required: false}
       # 添加一个自定义链接的输入框
-      - {label: "自定义永久链接 (纯英文/横杠)", name: "permalink", widget: "string", required: false, hint: "例如：my-first-blog。请只填小写字母、数字和横杠"}
+      - {label: "自定义永久链接", name: "permalink", widget: "string", required: false, pattern: ['^.*/$', "⚠️ 警告：链接结尾必须带有斜杠 /，否则网页会乱码！"], hint: "例如：my-first-blog/ （请务必以 / 结尾）"}
