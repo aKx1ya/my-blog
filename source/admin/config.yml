@@ -1,0 +1,20 @@
+backend:
+  name: git-gateway
+  branch: master
+
+media_folder: "source/img" # CMS 上传的图片保存在本地哪个文件夹
+public_folder: "/img" # 网站访问这些图片的路径
+
+collections:
+  - name: "blog"
+    label: "文章管理"
+    folder: "source/_posts" # 你的 Markdown 文章所在的文件夹
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "标题", name: "title", widget: "string"}
+      - {label: "发布时间", name: "date", widget: "datetime"}
+      - {label: "分类", name: "categories", widget: "list", required: false}
+      - {label: "标签", name: "tags", widget: "list", required: false}
+      - {label: "文章封面", name: "cover", widget: "image", required: false}
+      - {label: "正文", name: "body", widget: "markdown"}
