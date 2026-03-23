@@ -1,8 +1,10 @@
 locale: 'zh_Hans'
 backend:
-  name: git-gateway
-  branch: master
-  publish_mode: editorial_workflow
+  name: github
+  repo: aKx1ya/my-blog
+  branch: master               # 如果你的主分支叫 main，这里就改写 main
+  base_url: https://decap-proxy-phi.vercel.app 
+  auth_endpoint: /auth         
 
 media_folder: "source/img" # CMS 上传的图片保存在本地哪个文件夹
 public_folder: "/img" # 网站访问这些图片的路径
