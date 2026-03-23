@@ -1,0 +1,41 @@
+locale: 'zh_Hans'
+backend:
+  name: github
+  repo: aKx1ya/my-blog
+  branch: master               # 如果你的主分支叫 main，这里就改写 main
+  base_url: https://decap-proxy-phi.vercel.app 
+  auth_endpoint: /auth         
+
+media_folder: "source/img" # CMS 上传的图片保存在本地哪个文件夹
+public_folder: "/img" # 网站访问这些图片的路径
+
+collections:
+  - name: "blog"
+    label: "文章管理"
+    folder: "source/_posts" # 你的 Markdown 文章所在的文件夹
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    media_folder: '../../source/img/{{year}}/{{month}}' 
+    public_folder: '/img/{{year}}/{{month}}'
+    fields:
+      - {label: "标题", name: "title", widget: "string"}
+      - {label: "发布时间", name: "date", widget: "datetime"}
+      - {label: "分类", name: "categories", widget: "list", default: ["随笔"], required: false}
+      - {label: "标签", name: "tags", widget: "list", default: ["日常"], required: false}
+      - {label: "文章封面", name: "cover", widget: "image", required: false}
+      # 添加一个多行文本框，用来写文章在首页显示的摘要
+      - {label: "文章摘要", name: "description", widget: "text", required: false}
+      - {label: "正文", name: "body", widget: "markdown"}
+      # 添加一个开关，用来控制文章是否在首页置顶
+      - {label: "是否置顶", name: "top", widget: "boolean", default: false, required: false}
+      # 添加一个自定义链接的输入框
+      - {label: "自定义永久链接", name: "permalink", widget: "string", required: false, pattern: ['^.*/$', "⚠️ 警告：链接结尾必须带有斜杠 /，否则网页会乱码！"], hint: "例如：my-first-blog/ （请务必以 / 结尾）"}
+      - {label: "是否发布？(关闭即为草稿)", name: "published", widget: "boolean", default: false, required: false}
+      - label: "所属系列 (关联其他文章)"
+        name: "series"
+        widget: "relation"
+        collection: "blog"      # 去哪里找？去 blog 集合里找
+        search_fields: ["title"] # 搜索什么？搜索文章标题
+        value_field: "title"     # 选中后填入什么？填入文章标题
+        display_fields: ["title"] # 下拉框里显示什么？显示文章标题
+        required: false
