@@ -17,6 +17,8 @@ published: true
    衡量 Alpha 策略的超额回报（或风险溢价）与其波动性之间的比率。  
    - Sharpe 越高，Alpha 策略潜在的回报越稳定。  
    - Brain 平台要求 Sharpe Ratio > **1.25** 才能通过。
+   - delay 0 Alpha的Sharpe大于2.0，delay1 Alpha的Sharpe大于1.25 
+
 
 2. **Turnover 换手率**  
    衡量模拟每日交易活动的指标，即 Alpha 策略交易的频率。  
