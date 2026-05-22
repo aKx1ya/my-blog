@@ -28,6 +28,40 @@ published: true
   <li><strong>查询增强 (Query Boosting)</strong></li>
 </ol>
 
+{% hideToggle HyFormer 架构全景图 %}
+{% mermaid %}
+flowchart TB
+  subgraph Input["📥 输入层"]
+    NS["非序列特征 NS Tokens<br/>用户画像 / 上下文"]
+    SEQ["长序列特征<br/>用户行为轨迹"]
+  end
+
+  subgraph Layer1["🔄 HyFormer Layer × N"]
+    QG["① Query Generation<br/>MLP 生成 Global Tokens"]
+    KV["② KV Encoding<br/>Transformer / LONGER / SwiGLU"]
+    QD["③ Query Decoding<br/>Cross-Attention 提取序列信息"]
+    QB["④ Query Boosting<br/>Token-Mixing 深度特征交叉"]
+  end
+
+  subgraph Output["📤 输出层"]
+    PRED["CTR / CVR 预测"]
+  end
+
+  NS --> QG
+  SEQ --> KV
+  QG -->|"Global Tokens (Query)"| QD
+  KV -->|"K, V"| QD
+  QD -->|"Decoded Query"| QB
+  NS --> QB
+  QB -->|"Enhanced Query → 下一层"| QG
+  QB -.-> PRED
+
+  style QD fill:#e1f5fe,stroke:#0288d1
+  style QB fill:#fff3e0,stroke:#f57c00
+  style QG fill:#e8f5e9,stroke:#388e3c
+{% endmermaid %}
+{% endhideToggle %}
+
 <hr>
 
 <h2>核心步骤解析</h2>
@@ -49,6 +83,7 @@ published: true
 
 <p>探针会把关键历史信号吸收进自己的向量中（根据搜索到的信息迭代更新自己的全局 Token）。</p>
 
+{% hideToggle 💡 关于多头交叉注意力计算（点击展开） %}
 <blockquote>
   <p><strong>💡 关于多头交叉注意力计算：</strong></p>
   <ul>
@@ -56,6 +91,7 @@ published: true
     <li><strong>多头</strong>：注意力计算是分成多个平行的"头"同时进行的。</li>
   </ul>
 </blockquote>
+{% endhideToggle %}
 
 <p>这一步就是让全局的上下文信息带着"目的"去长序列里反照有用的历史行为，实现了<strong>全局信息 (Global Context) 对序列信息的介入</strong>。</p>
 
@@ -72,11 +108,13 @@ published: true
   <li>这既保留了序列的独特性，又能在随后的 Query Boosting 模块里，通过 Token-mixing 实现跨序列的全局融合。</li>
 </ol>
 
+{% hideToggle 🔧 第五步：系统层面的工程优化（点击展开） %}
 <h3>第五步：系统层面的工程优化</h3>
 <ul>
   <li><strong>长序列 GPU 池化 (GPU Pooling)</strong>：解决数据搬运的瓶颈。由于长序列里存在大量重复的 ID，模型会在底层去重后压缩传输，大幅降低了数据在 GPU 和 CPU 之间的传输成本和内存占用。HyFormer 底层做了一个"去重压缩包"，在数据传进 GPU 之前建立一个去重后的压缩特征表；数据传到 GPU 后，再通过一个高性能前向算子，在 GPU 内部解压并重构出原始的长序列。</li>
   <li><strong>异步 AllReduce</strong>：解决多卡通信等候瓶颈。在分布式训练时，让前向/反向传播和梯度同步异步进行，消除了通信气泡，极大提升了 GPU 利用率。</li>
 </ul>
+{% endhideToggle %}
 
 <hr>
 
@@ -98,7 +136,9 @@ published: true
 
 <hr>
 
+{% hideToggle 🚀 实战核心指南：Baseline 改造策略（点击展开） %}
 <h3>🚀 实战核心指南 (Baseline 改造策略)</h3>
 <p><strong>不要急着推翻 Baseline</strong>（因为其已包含 SwiGLU 和 RankMixer 等前沿技术）。</p>
 
 <p>建议以现有的 Baseline 为底座，把 HyFormer 论文中<strong>"引入 Global Tokens 交替进行 Decoding 和 Boosting"</strong>以及<strong>"多序列独立建模"</strong>的局部代码编辑一下，改写并融合进去。</p>
+{% endhideToggle %}

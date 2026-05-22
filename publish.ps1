@@ -64,7 +64,7 @@ $today = Get-Date -Format "yyyy-MM-ddTHH:mm:ss.000+08:00"
 $dateSlug = Get-Date -Format "yyyy-MM-dd"
 
 # 生成文件名
-$fileName = "$dateSlug-$title.html"
+$fileName = "$dateSlug-$title.md"
 $fileName = $fileName -replace '[\\/:*?"<>|]', '-'
 
 $postDir = Join-Path $PSScriptRoot "source\_posts"

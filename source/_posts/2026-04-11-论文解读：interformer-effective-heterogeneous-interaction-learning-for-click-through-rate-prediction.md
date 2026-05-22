@@ -18,6 +18,59 @@ series: "论文解读：HyFormer: Revisiting the Roles of Sequence Modeling and 
 <p>解决推荐系统中"动态行为"与"静态画像"的融合。<br>
 这论文是Meta基于在真实广告系统中的7000亿级样本和长度1000的序列里跑出的真实数据。证实了InterFormer很好用。</p>
 
+{% hideToggle InterFormer 三层架构全景图 %}
+{% mermaid %}
+flowchart TB
+  subgraph Static["🧩 静态特征端"]
+    UP["用户画像"]
+    CI["上下文信息"]
+    IA["商品属性"]
+  end
+
+  subgraph Sequence["📜 序列特征端"]
+    UB["用户行为序列<br/>点击/购买/浏览"]
+  end
+
+  subgraph Cross["🌉 Cross Arch 信息桥"]
+    SG["Self-Gating 自门控<br/>脱水提纯非序列特征"]
+    CLS["CLS Token"]
+    PMA["PMA Token<br/>可学习探针"]
+    RC["Recent 近期行为"]
+    direction LR
+    SG --> CLS
+    SG --> PMA
+    SG --> RC
+  end
+
+  subgraph Inter["🤝 Interaction Arch<br/>特征交叉网络"]
+    SS["Sequence Summarization<br/>序列摘要"]
+    FI["Feature Interaction<br/>特征交叉"]
+  end
+
+  subgraph SeqArch["🧠 Sequence Arch<br/>序列建模网络"]
+    PFFN["PFFN 个性化前馈网络"]
+    MHA["MHA 多头注意力"]
+  end
+
+  UP --> SG
+  CI --> SG
+  IA --> SG
+  UB --> PFFN
+  PFFN --> MHA
+  CLS --> MHA
+  PMA --> MHA
+  RC --> MHA
+  MHA -->|"感知上下文的序列特征"| SS
+  SG -->|"提纯后的静态特征"| FI
+  SS --> FI
+  FI --> PRED["🎯 CTR 预测"]
+
+  style Cross fill:#fff3e0,stroke:#f57c00
+  style Inter fill:#e1f5fe,stroke:#0288d1
+  style SeqArch fill:#e8f5e9,stroke:#388e3c
+{% endmermaid %}
+{% endhideToggle %}
+
 <hr>
 
 <h2>核心架构拆解</h2>
@@ -42,6 +95,7 @@ series: "论文解读：HyFormer: Revisiting the Roles of Sequence Modeling and 
 
 <hr>
 
+{% hideToggle 📖 关键名词解释（点击展开） %}
 <h2>关键名词解释</h2>
 
 <ul>
@@ -50,9 +104,11 @@ series: "论文解读：HyFormer: Revisiting the Roles of Sequence Modeling and 
   <li><strong>CLS Token（Classification）</strong>：直接把非序列摘要当作 CLS Token 插在用户序列的最前面，以此来帮助过滤。</li>
   <li><strong>PMA Token（Pooling by Multi-Head Attention）</strong>：和 CLS 不一样，不依赖静态画像，在训练过程中自己随机初始化并自学习出几个独立的 Learnable Queries（无偏见万能探针），纯粹从序列出发。</li>
 </ul>
+{% endhideToggle %}
 
 <hr>
 
+{% hideToggle 🎯 实战启发与应用策略（点击展开） %}
 <h2>实战启发与应用策略</h2>
 
 <p>① <strong>精细化提炼序列</strong>：用户行为序列如果很长，我们就尽量不要 Average Pooling 把序列拍扁，而是借鉴一下 InterFormer 用 CLS + PMA + Recent 结合一下来提炼序列。</p>
@@ -62,3 +118,4 @@ series: "论文解读：HyFormer: Revisiting the Roles of Sequence Modeling and 
 <p>③ <strong>降低显存换取大 Batch Size</strong>：用自控门 Self-Gating 机制降低显存，换取大的 batch size。把非序列特征送去和序列特征交互之前，先过一个 self-gating 先，提纯后再跑相关交互。省下来的内存去开 batch size，可以多睡一会。</p>
 
 <p>④ <strong>交替式学习 (Interleaving learning style)</strong>：不要把序列建模和特征交叉做成上下级的流水线结构，而是做成交替式的 block。重构的思路要想好，block1 做什么 block2 做什么。（1是静态特征去序列里搜信息，然后过一遍 rankmixer，上一步更新后的静态特征再去拿深层信息，再过一遍 rankmixer）这种迭代的结构很好，meta证明过了我们无脑用就好了。看来字节也是抄袭的。</p>
+{% endhideToggle %}
