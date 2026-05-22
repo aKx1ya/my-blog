@@ -165,7 +165,7 @@ subtitle:
   source: false
   # If you close the typewriter effect, the subtitle will only show the first line of sub
   sub:
-    - "Loading..."
+    - "进入博客空间"
 
 # Article layout on the homepage
 # 1: Cover on the left, info on the right
@@ -1073,36 +1073,6 @@ inject:
         .post-bg { background: transparent !important; }
       </style>
   bottom:
-    - |
-      <script>
-        (async function() {
-          const quotes = [
-            "In investing, what is comfortable is rarely profitable.",
-            "The stock market is a device for transferring money from the impatient to the patient.",
-            "Risk comes from not knowing what you're doing.",
-            "Price is what you pay. Value is what you get.",
-            "The four most dangerous words in investing are: 'this time it's different'.",
-            "Be fearful when others are greedy, and greedy when others are fearful.",
-            "The stock market is filled with individuals who know the price of everything, but the value of nothing.",
-            "Wide diversification is only required when investors do not understand what they are doing.",
-            "The best time to plant a tree was 20 years ago. The second best time is now.",
-            "Do not save what is left after spending, but spend what is left after saving."
-          ];
-          try {
-            const res = await fetch('https://api.quotable.io/random?maxLength=100');
-            if (res.ok) {
-              const data = await res.json();
-              const el = document.querySelector('#subtitle');
-              if (el) el.textContent = '\u201C' + data.content + '\u201D \u2014 ' + data.author;
-            }
-          } catch (e) {}
-          // Fallback: pick a random quote if API fails
-          const el = document.querySelector('#subtitle');
-          if (el && (!el.textContent || el.textContent === 'Loading...')) {
-            el.textContent = quotes[Math.floor(Math.random() * quotes.length)];
-          }
-        })();
-      </script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
