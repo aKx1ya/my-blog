@@ -60,13 +60,13 @@ avatar:
   effect: false
 
 # Disable all banner images
-disable_top_img: true
+disable_top_img: false
 
 # If the banner of page not setting, it will show the default_top_img
 default_top_img:
 
 # The banner image of index page
-index_img:
+index_img: /img/background01.png
 
 # The banner image of archive page
 archive_img:
@@ -88,12 +88,12 @@ category_img:
 category_per_img:
 
 # The background image of footer
-footer_img:
+footer_img: '#000000'
 
 # Website Background
 # Can set it to color, image URL or an array containing colors and/or image URLs
 # If an array is provided, a random background will be selected from the array on each load
-background:
+background: /img/background01.png
 
 cover:
   # Disable the cover or not
