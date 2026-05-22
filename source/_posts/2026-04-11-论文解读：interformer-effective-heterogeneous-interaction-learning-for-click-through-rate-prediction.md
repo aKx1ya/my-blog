@@ -19,7 +19,7 @@ series: "论文解读：HyFormer: Revisiting the Roles of Sequence Modeling and 
 这论文是Meta基于在真实广告系统中的7000亿级样本和长度1000的序列里跑出的真实数据。证实了InterFormer很好用。</p>
 
 {% hideToggle InterFormer 三层架构全景图 %}
-{% mermaid %}
+```mermaid
 flowchart TB
   subgraph Static["🧩 静态特征端"]
     UP["用户画像"]
@@ -68,7 +68,7 @@ flowchart TB
   style Cross fill:#fff3e0,stroke:#f57c00
   style Inter fill:#e1f5fe,stroke:#0288d1
   style SeqArch fill:#e8f5e9,stroke:#388e3c
-{% endmermaid %}
+```
 {% endhideToggle %}
 
 <hr>
