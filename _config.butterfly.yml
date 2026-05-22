@@ -60,13 +60,13 @@ avatar:
   effect: false
 
 # Disable all banner images
-disable_top_img: false
+disable_top_img: true
 
 # If the banner of page not setting, it will show the default_top_img
 default_top_img:
 
 # The banner image of index page
-index_img: /img/background01.png
+index_img:
 
 # The banner image of archive page
 archive_img:
@@ -88,12 +88,12 @@ category_img:
 category_per_img:
 
 # The background image of footer
-footer_img: '#000000'
+footer_img:
 
 # Website Background
 # Can set it to color, image URL or an array containing colors and/or image URLs
 # If an array is provided, a random background will be selected from the array on each load
-background: /img/background01.png
+background:
 
 cover:
   # Disable the cover or not
@@ -291,8 +291,8 @@ aside:
       text: Follow Me
       link: https://github.com/aKx1ya
   card_announcement:
-    enable: true
-    content: 还是毛坯房呢
+    enable: false
+    content:
   card_recent_post:
     enable: true
     # If set 0 will show all
@@ -1064,17 +1064,13 @@ css_prefix: true
 inject:
   head:
     - |
-      <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    - |
-      <script>
-        if (window.netlifyIdentity) {
-          window.netlifyIdentity.on("init", user => {
-            if (!user) {
-              window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
-            }
-          });
-        }
-      </script>
+      <style>
+        /* 文章顶部区域透明化 */
+        #post-info { background: transparent !important; }
+        #page-header { background: transparent !important; }
+        #post-header { background: transparent !important; }
+        .post-bg { background: transparent !important; }
+      </style>
   bottom:
 
 # CDN Settings
