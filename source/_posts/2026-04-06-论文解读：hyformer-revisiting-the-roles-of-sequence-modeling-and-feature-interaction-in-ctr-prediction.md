@@ -28,8 +28,7 @@ published: true
   <li><strong>查询增强 (Query Boosting)</strong></li>
 </ol>
 
-{% hideToggle HyFormer 架构全景图 %}
-```mermaid
+{% mermaid %}
 flowchart TB
   subgraph Input["📥 输入层"]
     NS["非序列特征 NS Tokens<br/>用户画像 / 上下文"]
@@ -59,8 +58,7 @@ flowchart TB
   style QD fill:#e1f5fe,stroke:#0288d1
   style QB fill:#fff3e0,stroke:#f57c00
   style QG fill:#e8f5e9,stroke:#388e3c
-```
-{% endhideToggle %}
+{% endmermaid %}
 
 <hr>
 
