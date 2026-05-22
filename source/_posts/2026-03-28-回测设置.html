@@ -1,0 +1,29 @@
+---
+title: 回测设置
+date: 2026-03-28T22:17:00.000+08:00
+categories:
+  - 笔记
+tags:
+  - 回测
+description: WorldQuant Brain平台的回测设置setting
+top: false
+permalink: backtest-setting/
+published: true
+---
+<h1>投资组合工具说明</h1>
+
+<h2>① Delay 衰减</h2>
+<p><strong>Decay 运算符</strong>是一种时间序列工具，用来给过去的数据点赋予逐渐减弱的权重。</p>
+<ul>
+  <li><strong>核心思想</strong>：新的数据越重要，越久远的数据影响力逐渐衰减。</li>
+  <li>如果信号每天都完全依赖最新数据，组合则会频繁调整，导致换手率很高。</li>
+  <li>换言之，<strong>Decay 越大</strong> → 权重更平均，换手率越低。</li>
+  <li>但是 <strong>Decay 太大</strong> → 信号被稀释，对市场新信息反映迟钝，预测能力下降。</li>
+</ul>
+
+<h2>② Truncation 截断</h2>
+<p><strong>Truncation</strong> 是一个风险控制工具，用来限制 portfolio 中单个股票的最大权重（权重上限）。</p>
+<ul>
+  <li>作用：防止某一只股票在组合里占比过高，从而导致风险集中。</li>
+  <li>一般范围设置为 <strong>0.05 - 0.1</strong>。</li>
+</ul>
