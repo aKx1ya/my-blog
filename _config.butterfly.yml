@@ -111,8 +111,8 @@ error_img:
 
 # A simple 404 page
 error_404:
-  enable: false
-  subtitle: 'Page Not Found'
+  enable: true
+  subtitle: '咦？这篇博客不存在…'
   background: /img/error-page.png
 
 post_meta:
@@ -798,7 +798,7 @@ mask:
 
 # Loading Animation
 preloader:
-  enable: false
+  enable: true
   # source
   # 1. fullpage-loading
   # 2. pace (progress bar)
@@ -873,16 +873,16 @@ canvas_fluttering_ribbon:
 # canvas_nest
 # https://github.com/hustcc/canvas-nest.js
 canvas_nest:
-  enable: false
+  enable: true
   # Color of lines, default: '0,0,0'; RGB values: (R,G,B).(note: use ',' to separate.)
-  color: '0,0,255'
+  color: '255,255,255'
   # The opacity of line (0~1)
-  opacity: 0.7
+  opacity: 0.5
   # The z-index property of the background
   zIndex: -1
   # The number of lines
   count: 99
-  mobile: false
+  mobile: true
 
 # Mouse click effects: fireworks
 fireworks:
@@ -922,9 +922,9 @@ lightbox:
 
 # Series
 series:
-  enable: false
+  enable: true
   # Order by title or date
-  orderBy: 'title'
+  orderBy: 'date'
   # Sort of order. 1, asc for ascending; -1, desc for descending
   order: 1
   number: true

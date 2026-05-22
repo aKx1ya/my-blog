@@ -10,6 +10,8 @@ description: TAAC&KDD2026参考论文第一篇解读。
 top: false
 permalink: HyFormer/
 published: true
+series: "论文解读：HyFormer: Revisiting the Roles of Sequence Modeling and Feature
+  Interaction in CTR Prediction"
 ---
 <h1>HyFormer: Revisiting the Roles of Sequence Modeling and Feature Interaction in CTR Prediction</h1>
 <blockquote>
